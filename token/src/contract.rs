@@ -9,6 +9,8 @@ use crate::metadata::{
     read_decimal, read_name, read_symbol, write_decimal, write_name, write_symbol,
 };
 use soroban_sdk::{contractimpl, Address, Bytes, Env};
+use crate::storage_types::Subscription;
+use crate::subscription::{charge_subscription, clear_subscription, read_subscription, write_subscription};
 
 pub trait TokenTrait {
     fn initialize(e: Env, admin: Address, decimal: u32, name: Bytes, symbol: Bytes);
@@ -18,6 +20,12 @@ pub trait TokenTrait {
     fn incr_allow(e: Env, from: Address, spender: Address, amount: i128);
 
     fn decr_allow(e: Env, from: Address, spender: Address, amount: i128);
+
+    fn subscribe(e: Env, from: Address, spender: Address, amount: i128, period: u32);
+
+    fn unsubscribe(e: Env, from: Address, spender: Address);
+
+    fn charge_sub(e: Env, from: Address, spender: Address);
 
     fn balance(e: Env, id: Address) -> i128;
 
@@ -99,6 +107,42 @@ impl TokenTrait for Token {
             write_allowance(&e, from.clone(), spender.clone(), allowance - amount);
         }
         event::decr_allow(&e, from, spender, amount);
+    }
+
+    fn subscribe(e: Env, from: Address, spender: Address, amount: i128, period: u32) {
+        from.require_auth();
+
+        check_nonnegative_amount(amount);
+        let current_subscription: Subscription = read_subscription(&e, &from, &spender);
+        if current_subscription.amount > 0 {
+            panic!("Subscription already exists");
+        }
+
+        // TODO: Check if the period doesn't overflow but I don't think it's feasible for reasonable periods
+        write_subscription(&e, from.clone(), spender.clone(), Subscription {
+            last_charge: e.ledger().timestamp(),
+            spender,
+            amount,
+            period,
+            from,
+        });
+        // TODO: Define events
+    }
+
+    fn unsubscribe(e: Env, from: Address, spender: Address) {
+        from.require_auth();
+        clear_subscription(&e, from.clone(), spender.clone());
+        // TODO: Define events
+    }
+
+    fn charge_sub(e: Env, spender: Address, from: Address) {
+        spender.require_auth();
+
+        let subscription: Subscription = read_subscription(&e, &from, &spender);
+        charge_subscription(&e, &subscription);
+        spend_balance(&e,  subscription.from, subscription.amount);
+        receive_balance(&e, subscription.spender, subscription.amount);
+        // TODO: Define events
     }
 
     fn balance(e: Env, id: Address) -> i128 {

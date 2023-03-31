@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<module type="CPP_MODULE" version="4">
+  <component name="NewModuleRootManager">
+    <content url="file://$MODULE_DIR$">
+      <sourceFolder url="file://$MODULE_DIR$/account/src" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/alloc/src" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/atomic_multiswap/src" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/atomic_swap/src" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/auth/src" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/cross_contract/contract_a/src" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/cross_contract/contract_b/src" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/custom_types/src" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/deployer/contract/src" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/deployer/deployer/src" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/errors/src" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/events/src" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/hello_world/src" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/increment/src" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/liquidity_pool/src" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/logging/src" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/single_offer/src" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/timelock/src" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/token/src" isTestSource="false" />
+      <excludeFolder url="file://$MODULE_DIR$/target" />
+    </content>
+    <orderEntry type="inheritedJdk" />
+    <orderEntry type="sourceFolder" forTests="false" />
+  </component>
+</module>
